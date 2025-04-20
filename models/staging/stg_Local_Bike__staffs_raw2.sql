@@ -5,5 +5,5 @@ email as staff_email,
 phone as staff_phone,
 active as staff_active,
 cast(manager_id as string) as manager_id,
-cast(store_id as store_id)
+cast(store_id as string) as store_id
 from{{source("Local_Bike",'staffs_raw')}}
