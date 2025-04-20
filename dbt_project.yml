@@ -1,7 +1,7 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: "my_new_project"
+name: "my_Local_Bike_Project"
 version: "1.0.0"
 config-version: 2
 
@@ -48,5 +48,5 @@ models:
       +schema: int_Local_Bike
 
     mart:
-      +schema: mart
       +materialized: table
+      +schema: mart
