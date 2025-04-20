@@ -1,0 +1,248 @@
+version: 2
+
+models:
+  - name: stg_Local_Bike__brands_raw2
+    description: Table des marques des produits Local Bike.
+    columns:
+      - name: brand_id
+        description: Identifiant unique de la marque.
+        tests:
+          - not_null
+          - unique
+      - name: brand_name
+        description: Nom de la marque.
+        tests:
+          - not_null
+
+  - name: stg_Local_Bike__categories_raw2
+    description: Table des catégories de produits.
+    columns:
+      - name: category_id
+        description: Identifiant unique de la catégorie.
+        tests:
+          - not_null
+          - unique
+      - name: category_name
+        description: Nom de la catégorie.
+        tests:
+          - not_null
+
+  - name: stg_Local_Bike__customers_raw2
+    description: Table des clients.
+    columns:
+      - name: customer_id
+        description: Identifiant unique du client.
+        tests:
+          - not_null
+          - unique
+      - name: client_first_name
+        description: Prénom du client.
+      - name: client_last_name
+        description: Nom de famille du client.
+      - name: client_phone
+        description: Numéro de téléphone du client.
+        tests:
+         - dbt_utils.expression_is_true:
+            expression: "LENGTH(client_phone) = 10"
+      - name: client_email
+        description: Adresse email du client.
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "REGEXP_CONTAINS(client_email, r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$')"
+      - name: client_street
+        description: Rue du client.
+      - name: client_city
+        description: Ville du client.
+      - name: client_state
+        description: État ou région du client.
+      - name: client_zip_code
+        description: Code postal du client.
+
+  - name: stg_Local_Bike__order_items_raw2
+    description: Table des lignes de commandes avec prix et remises.
+    columns:
+      - name: order_id
+        description: Identifiant de la commande.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('order_raw')
+              field: order_id
+      - name: item_id
+        description: Identifiant de la ligne de commande.
+      - name: product_id
+        description: Identifiant du produit.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('products_raw2')
+              field: product_id
+      - name: order_unique_id
+        description: Identifiant unique concaténé de la ligne de commande.
+        tests:
+          - not_null
+          - unique
+      - name: quantity
+        description: Quantité commandée.
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "quantity >= 0"
+
+      - name: unit_price
+        description: Prix unitaire avant remise.
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "unit_price >= 0"
+      - name: discount
+        description: Remise appliquée.
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "discount >= 0 AND discount <= 40"
+  - name: stg_Local_Bike__orders_raw2
+    description: Table des commandes.
+    columns:
+      - name: order_id
+        description: Identifiant unique de la commande.
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: Identifiant du client.
+        tests:
+          - relationships:
+              to: ref('customers_raw')
+              field: customer_id
+      - name: order_status
+        description: Statut de la commande.
+      - name: order_date
+        description: Date de la commande.
+      - name: shipped_date
+        description: Date d'expédition de la commande (peut être NULL).
+      - name: store_id
+        description: Identifiant du magasin.
+        tests:
+          - relationships:
+              to: ref('store_raw2')
+              field: store_id
+      - name: staff_id
+        description: Identifiant du personnel ayant saisi la commande.
+        tests:
+          - relationships:
+              to: ref('staffs_raw2')
+              field: staff_id
+
+  - name: stg_Local_Bike__products_raw2
+    description: Table des produits.
+    columns:
+      - name: product_id
+        description: Identifiant unique du produit.
+        tests:
+          - not_null
+          - unique
+      - name: product_name
+        description: Nom du produit.
+      - name: brand_id
+        description: Identifiant de la marque du produit.
+        tests:
+          - relationships:
+              to: ref('brands_raw2')
+              field: brand_id
+      - name: category_id
+        description: Identifiant de la catégorie du produit.
+        tests:
+          - relationships:
+              to: ref('categories_raw2')
+              field: category_id
+      - name: unit_price
+        description: Prix unitaire du produit.
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "unit_price >= 0"
+
+  - name: stg_Local_Bike__staffs_raw2
+    description: Table des employés.
+    columns:
+      - name: staff_id
+        description: Identifiant unique du membre du personnel.
+        tests:
+          - not_null
+          - unique
+      - name: staff_first_name
+        description: Prénom du membre du personnel.
+      - name: staff_last_name
+        description: Nom du membre du personnel.
+      - name: store_id
+        description: Identifiant du magasin d'affectation.
+        tests:
+          - relationships:
+              to: ref('stores_raw2')
+              field: store_id
+      - name: staff_email
+        description: Adresse email professionnelle.
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "REGEXP_CONTAINS(staff_email, r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$')"
+      - name: staff_phone
+        description: Téléphone professionnel.
+        tests:
+         - dbt_utils.expression_is_true:
+            expression: "LENGTH(staff_phone) = 10"
+      - name: manager_id
+        description: Identifiant du supérieur hiérarchique.
+
+  - name: stg_Local_Bike__stocks_raw2
+    description: Table des stocks de produits par magasin.
+    columns:
+      - name: store_id
+        description: Identifiant du magasin.
+        tests:
+          - relationships:
+              to: ref('stores_raw')
+              field: store_id
+      - name: product_id
+        description: Identifiant du produit.
+        tests:
+          - relationships:
+              to: ref('products_raw2')
+              field: product_id
+      - name: stock_product_unique_id
+        description: Identifiant unique du stock (magasin-produit) - concaténation de product_id et de store_id
+        tests:
+          - not_null
+          - unique
+      - name: stock_quantity
+        description: Quantité de produit en stock.
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "stock_quantity >= 0"
+
+  - name: stg_Local_Bike__stores_raw2
+    description: Table des magasins.
+    columns:
+      - name: store_id
+        description: Identifiant unique du magasin.
+        tests:
+          - not_null
+          - unique
+      - name: store_name
+        description: Nom du magasin.
+        tests:
+          - not_null
+      - name: store_phone
+        description: Numéro de téléphone du magasin.
+        tests:
+         - dbt_utils.expression_is_true:
+            expression: "LENGTH(store_phone) = 10"
+      - name: store_email
+        description: Adresse email du magasin.
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "REGEXP_CONTAINS(store_email, r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$')"
+      - name: store_street
+        description: Rue du magasin.
+      - name: store_city
+        description: Ville du magasin.
+      - name: store_state
+        description: État ou région du magasin.
+      - name: store_zip_code
+        description: Code postal du magasin.
