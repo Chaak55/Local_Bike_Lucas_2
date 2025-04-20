@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: int_product_sales_enrichie
+    description: >
+      Détail enrichi des ventes de produits (order item) par commande (order), incluant informations sur le produit,
+      le client, le personnel et le magasin. Basé sur les données de staging.
+    columns:
+      - name: order_id
+        description: Identifiant unique de la commande.
+
+      - name: customer_id
+        description: Identifiant du client.
+
+      - name: client_first_name
+        description: Prénom du client.
+
+      - name: client_last_name
+        description: Nom du client.
+
+      - name: order_date
+        description: Date de la commande.
+
+      - name: shipped_date
+        description: Date d’expédition.
+
+      - name: discounted_amount
+        description: Montant total des ventes après application des remises.
+
+      - name: product_id
+        description: Identifiant du produit.
+
+      - name: product_name
+        description: Nom du produit.
+
+      - name: brand_id
+        description: Identifiant de la marque du produit.
+
+      - name: brand_name
+        description: Nom de la marque.
+
+      - name: category_id
+        description: Identifiant de la catégorie du produit.
+
+      - name: category_name
+        description: Nom de la catégorie.
+
+      - name: store_id
+        description: Identifiant du magasin.
+
+      - name: store_name
+        description: Nom du magasin.
+
+      - name: staff_first_name
+        description: Prénom du personnel ayant géré la commande.
+
+      - name: staff_last_name
+        description: Nom du personnel ayant géré la commande.
