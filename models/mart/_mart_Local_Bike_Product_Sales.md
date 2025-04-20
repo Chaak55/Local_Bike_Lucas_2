@@ -2,7 +2,7 @@
 
 ### `docs _mart_Local_Bike_Product_Sales`
 
-#### Description
+#### Desc.
 
 Le modèle `docs _mart_Local_Bike_Product_Sales` représente la **vue métier finale des ventes** de l’entreprise. Il s’agit d’une table enrichie à partir de différentes sources `staging` et `intermediate`, fournissant une vision consolidée de toutes les commandes passées, incluant les produits, les clients, le personnel et les magasins associés.
 
