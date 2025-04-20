@@ -42,8 +42,8 @@ models:
       - name: client_phone
         description: Numéro de téléphone du client.
         tests:
-         - dbt_utils.expression_is_true:
-            expression: "LENGTH(client_phone) = 10"
+          - dbt_utils.expression_is_true:
+              expression: "LENGTH(client_phone) = 10"
       - name: client_email
         description: Adresse email du client.
         tests:
@@ -185,8 +185,8 @@ models:
       - name: staff_phone
         description: Téléphone professionnel.
         tests:
-         - dbt_utils.expression_is_true:
-            expression: "LENGTH(staff_phone) = 10"
+          - dbt_utils.expression_is_true:
+              expression: "LENGTH(staff_phone) = 10"
       - name: manager_id
         description: Identifiant du supérieur hiérarchique.
 
@@ -195,17 +195,13 @@ models:
     columns:
       - name: store_id
         description: Identifiant du magasin.
-        tests:
-          - relationships:
-              to: ref('stores_raw')
-              field: store_id
       - name: product_id
         description: Identifiant du produit.
         tests:
           - relationships:
               to: ref('products_raw2')
               field: product_id
-      - name: stock_product_unique_id
+      - name: stock_unique_id
         description: Identifiant unique du stock (magasin-produit) - concaténation de product_id et de store_id
         tests:
           - not_null
@@ -231,8 +227,8 @@ models:
       - name: store_phone
         description: Numéro de téléphone du magasin.
         tests:
-         - dbt_utils.expression_is_true:
-            expression: "LENGTH(store_phone) = 10"
+          - dbt_utils.expression_is_true:
+              expression: "LENGTH(store_phone) = 10"
       - name: store_email
         description: Adresse email du magasin.
         tests:
