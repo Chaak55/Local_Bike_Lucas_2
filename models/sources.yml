@@ -8,8 +8,8 @@ sources:
       - name: categories_raw
       - name: customers_raw
       - name: order_items_raw
-      - name: orders_raw
+      - name: order_raw
       - name: products_raw
-      - name: staff_raw
+      - name: staffs_raw
       - name: stocks_raw
       - name: stores_raw
