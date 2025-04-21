@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: mart_product_sales
-    description: '{{ doc("_mart_Local_Bike_Product_Sales") }}'
+  - name: mart_Local_Bike_Product_Sales
+    description: "{{ doc('_mart_Local_Bike_Product_Sales') }}"
     columns:
       - name: customer_id
         description: Identifiant du client.

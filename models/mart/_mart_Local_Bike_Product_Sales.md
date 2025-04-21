@@ -26,5 +26,12 @@ Ce modèle s’appuie sur les données préparées par le modèle intermédiaire
 | `shipped_date`      | Date d’expédition de la commande.           |
 | `discounted_amount` | Montant payé après application des remises. |
 | `product_id`        | Identifiant unique du produit vendu         |
+| `product_name`      | Nom du produit vendu                        |
+| `store_id`          | Identifiant unique du magasin               |
+| `store_name`        | Nom du magasin                              |
+| `brand_id`          | Identifiant unique de la marque du produit  |
+| `brand_name`        | Nom de la marque                            |
+| `category_id`       | Identifiant unique catégorie du produit     |
+| `category_name`     | Nom de la catégorie                         |
 
 {% enddocs %}
